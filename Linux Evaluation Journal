@@ -1,0 +1,193 @@
+#DeepHLApan
+
+#find out container that is running 
+sudo docker ps
+
+#copies files in/out from host to container
+sudo docker cp ./ a6bf37e64b17:/notebooks/fromhost
+
+# prediction runs successfully
+/notebooks/fromhost# deephlapan -F testdata2.csv -O ./
+
+
+#MHCflurry
+sudo docker run -p 9999:9999 --rm openvax/mhcflurry:latest
+e48acfe4d495
+#Use notebook, upload and download to obtain result
+#below is docker ID
+sudo docker cp ./ e48acfe4d495:/mhcflurry/notebooks/
+
+#python code to include testing data
+
+import csv
+f = open('testdata2v3.csv')
+csv_f = csv.reader(f)
+list_pept = []
+list_allel = [] 
+result = []
+file = open('resultmhcflurry.csv', "a")
+for row in csv_f:
+    #remove HLA-A, add* after first letter
+    alle = row[0].replace("HLA-","")
+    alle = alle[0] + "*" + alle[1:]
+    list_allel.append(alle)
+    list_pept.append(row[1])
+   
+    prediction=(predictor.predict([row[1]], [alle]))
+    result.append(prediction)
+    #print(prediction)
+    data = prediction.to_csv()
+    file.write(data)
+file.close()
+
+
+
+#DeepSeqPan only accepts length peptide 1,9,20
+# maybe for "HLA-A01:01" add * before the numerica code for it to work
+# be careful of ^M introduced by window binary as newline, try to create edit csv in linux only b4 testing
+
+media/sf_H_DRIVE/6010Project/DeepSeqPan-master/DeepSeqPan-master/scripts$ python test.py ../models/benchmark_evaluation/best_model.keras sample_test4.txt 
+
+
+
+
+
+24 April 2021
+----------------------------
+ONLY DEEPSEQPAN has length requirement, other two are okay with length in range of 3-15
+(base) ubuntu@ubunu2004:/media/sf_H_DRIVE/6010Project$ awk '{if (NR!=1) {print $3 " " $4}}' 1-DATA-NEOATIGEN1.prn  | wc -l
+
+
+Test if HLA does not go longer than 39:01
+delete HLA-B*39:01 LRNPLIAGK & HLA-B*39:09 LRNPLIAGK two lines in line 252 of 2-seqpan.csv 
+now encoutered new stop line at 2586
+delete HLA-B*39:06 DHQAAFQYI one line in line 2586 of 2-seqpanv2.csv
+
+now encoutered new stop line at 2586 
+
+delete  
+2587 HLA-B*39:06 EAFEHTPGV
+2588 HLA-B*39:06 INSEMFLRS
+  
+now encoutered new stop line at 2788
+2789 HLA-B*39:06 LVAEAFEHT deleted
+
+now encoutered new stop line at 3209
+3210 HLA-B*39:06 TNVFLFLFA deleted
+
+
+predict next encounterstop line at 5505 with 5506 HLA-B*39:06 NHINVELSL
+prediction fulfilled
+
+Now trying to get rid of all lines containing HLA-B*39:06 from v1, save in v7
+
+python test.py ../models/benchmark_evaluation/best_model.keras 2-DEEPSEQPANv7.csv > output2v7.txt
+
+still in progress 25/april
+
+now encoutered new stop line at 40979 output2v7.txt
+
+line 40980 HLA-B*59:01 KECVLHDDL
+42948
+48739
+
+Finally modified test.py to handle exception, when the program could not find the hla sequences in it mhc_i_protein_sequence.txt.
+This are the main reason for the error throwing in the 24 APril
+now trying again 2.csv
+
+25 successfully finished testing 2.csv with exception after almost 12 hours of runnning
+all rejected HLA entries inside output2_sort-withExceptionHandling-HLA-Rejected-Entries.txt
+
+
+
+
+
+
+
+
+
+24 April 2021
+-------------------------------
+
+test file for deephlp need header line -> annotation,HLA, peptide
+
+
+DeepHLA goes fine with 1-Deep.csv
+
+DeepHLA does not seem to like HLA-A1, HLA type
+grep -v HLA-A1, ../fromhost/1-DATA-DEEPHLA-v1.csv  > ../fromhost/1-DATA-DEEPHLA-v2.csv
+DeepHLA does not seem to like HLA-A2, HLA type
+grep -v HLA-A2, ../fromhost/1-DATA-DEEPHLA-v2.csv  > ../fromhost/1-DATA-DEEPHLA-v3.csv
+DeepHLA does not seem to like HLA-A24, HLA type
+DeepHLA does not seem to like HLA-A35, HLA type
+grep -v HLA-A2, ../fromhost/1-DATA-DEEPHLA-v2.csv  > ../fromhost/1-DATA-DEEPHLA-v4.csv
+grep -v HLA-B35, ../fromhost/1-DATA-DEEPHLA-v4.csv  > ../fromhost/1-DATA-DEEPHLA-v5.csv
+KeyError: ('HLA-E01:03', u'occurred at index 1226')
+it does not seem to like 'HLA-E01:03' but may be 'HLA-E01:01' is okay
+grep -v HLA-E01:03, ../fromhost/1-DATA-DEEPHLA-v5.csv  > ../fromhost/1-DATA-DEEPHLA-v6.csv
+
+
+Now trying 3.csv
+KeyError: ('HLA-A3', u'occurred at index 43')
+grep -v HLA-A3, ../fromhost/3-DEEPHLA-v1.csv  > ../fromhost/3-DEEPHLA-v2.csv
+grep -v HLA-A1, ../fromhost/3-DEEPHLA-v2.csv > ../fromhost/3-DEEPHLA-v3.csv
+grep -v HLA-A11, ../fromhost/3-DEEPHLA-v3.csv > ../fromhost/3-DEEPHLA-v4.csv
+KeyError: ('HLA-B44:01', u'occurred at index 7816')
+grep -v  HLA-B44:01, ../fromhost/3-DEEPHLA-v4.csv > ../fromhost/3-DEEPHLA-v5.csv
+grep -v  HLA-B08:011 ../fromhost/3-DEEPHLA-v5.csv  > ../fromhost/3-DEEPHLA-v6.csv
+finally 3.csv finished testing 
+
+trying 4.csv done
+
+trying 2.csv sorted ...
+
+25/April
+All data prediction results performed on DeepHLApan DeepSeqpan
+
+
+Now MHCFlurry 
+
+cp the test data to mhcflurry notebook
+
+use below code to run all 4 data tests
+import csv
+import pandas as pd
+
+fileslist = ["1-MHCFLURRY.csv","2-MHCFLURRY.csv","3-MHCFLURRY.csv","4-MHCFLURRY.csv"]
+
+for files in fileslist:
+    f = open(files)
+    csv_f = csv.reader(f)
+    list_pept = []
+    list_allel = [] 
+    result = []
+    error = []
+    resultFilename = 'Result' + "-" + files
+    errorFilename = 'Error' + "-" + files
+    file = open(resultFilename, "a")
+    efile = open(errorFilename, "a")
+    for row in csv_f:
+        #remove HLA-A, add* after first letter
+        line = str.split(row[0])
+        print(line)
+        list_allel.append(line[1])
+        list_pept.append(line[0])
+        try:
+            prediction=(predictor.predict([line[0]], [line[1]]))
+            result.append(prediction)
+            data = prediction.to_csv()
+            #print(prediction to file)
+            file.write(data)
+        except Exception as e:
+            error_data = {'HLA':[line[1]],'Peptide':[line[0]], 'ErrorMsg':[str(e)]}
+            # Create DataFrame
+            df = pd.DataFrame(error_data)
+            error.append(df)
+            #print(error to file)
+            efile.write(df.to_csv())
+            
+    file.close()
+    efile.close()
+    
+ 
+
