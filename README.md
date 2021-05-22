@@ -1,5 +1,5 @@
 # GNBF6010
-Evaluation data &amp; R script of Neoantigen Deep Learning Predictor for GBBF 6010 Research Project
+Evaluation data &amp; scripts of Neoantigen Deep Learning Predictor for GBBF 6010 Research Project
 
 The R script is based on based data accessed from All1234-predictionresultsv3.xlsx and ALL-DATASET_5_Resultsv2.xlsx
 Make sure the working directory is correct.
@@ -55,7 +55,7 @@ The errornous hla type in original raw dataset also recorded in the excel as the
 This is a journal of my evalation process. e.g. my testing commands, failures, error encountered, retries results etc.
 
 
-
+last updated 2021 May 22
 
 
 
