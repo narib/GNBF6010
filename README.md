@@ -2,7 +2,9 @@
 Evaluation data &amp; scripts of Neoantigen Deep Learning Predictor for GBBF 6010 Research Project
 
 The R script is based on based data accessed from All1234-predictionresultsv3.xlsx and ALL-DATASET_5_Resultsv2.xlsx
-Make sure the working directory is correct.
+Make sure the working directory is correct. these excel are containing all evaluation datasets filtered out with error and non supported HLA types, only 9-mer.
+All1234-predictionresultsv3.xlsx is the dataset 1, 2, 3 & 4 of all predictors and corresponding prediction results
+ALL-DATASET_5_Resultsv2.xlsx is the dataset 5 of all predictors and corresponding prediction results
 
 The python scripts:
 1) test.py 
@@ -54,7 +56,7 @@ The errornous hla type in original raw dataset also recorded in the excel as the
 6) Linux Evaluation Journal
 This is a journal of my evalation process. e.g. my testing commands, failures, error encountered, retries results etc.
 
-
+File ALL1234-DATA-MiSv3.xlsx and ALL1234output_withExceptionHandling are examples of my results, may be ignored them! 
 last updated 2021 May 22
 
 
