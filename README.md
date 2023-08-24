@@ -1,7 +1,7 @@
 # GNBF6010
 Evaluation data &amp; scripts of Neoantigen Deep Learning Predictor for GBBF 6010 Research Project
 
-The R script is based on based data accessed from All1234-predictionresultsv3.xlsx and ALL-DATASET_5_Resultsv2.xlsx
+The R script is based on data accessed from All1234-predictionresultsv3.xlsx and ALL-DATASET_5_Resultsv2.xlsx
 Make sure the working directory is correct. these excel are containing all evaluation datasets filtered out with error and non supported HLA types, only 9-mer.
 All1234-predictionresultsv3.xlsx is the dataset 1, 2, 3 & 4 of all predictors and corresponding prediction results
 ALL-DATASET_5_Resultsv2.xlsx is the dataset 5 of all predictors and corresponding prediction results
