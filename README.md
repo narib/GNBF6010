@@ -54,7 +54,7 @@ All non supported hla type by each predictor were recorded in this excel in work
 The errornous hla type in original raw dataset also recorded in the excel as the last worksheet.
 
 6) Linux Evaluation Journal
-This is a journal of my evalation process. e.g. my testing commands, failures, error encountered, retries results etc.
+This is a journal of my evaluation process. e.g. my testing commands, failures, error encountered, retries results etc.
 
 File ALL1234-DATA-MiSv3.xlsx and ALL1234output_withExceptionHandling are examples of my results, may be ignored them! 
 last updated 2021 May 22
